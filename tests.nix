@@ -39,6 +39,21 @@ in makeTests {
       [options]
       test-option = 1
     '';
+  in assert parsed.metadata.name == "test-package";
+  assert parsed.options.test-option == "1";
+  true;
+
+  multipleSectionsWithNewlines = let
+    parsed = setuptools.parseSetupCfg ''
+      [metadata]
+      name = test-package
+
+
+      [options]
+      test-option = 1
+    '';
     expected = "test-package";
-  in assert parsed.metadata.name == expected; true;
+  in assert parsed.metadata.name == expected;
+  assert parsed.options.test-option == "1";
+  true;
 }

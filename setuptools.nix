@@ -19,5 +19,6 @@ let
   section = bind sectionName (name:
     skipThen (string "\n")
     (fmap (values: makeAttribute name values) valueBlock));
-  setupCfg = fmap mergeAttrSets (sepBy section newline);
+  sectionSeperator = many1 newline;
+  setupCfg = fmap mergeAttrSets (sepBy section sectionSeperator);
 in { parseSetupCfg = configText: (runParser setupCfg configText).value; }
