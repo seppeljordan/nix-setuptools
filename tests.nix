@@ -52,8 +52,36 @@ in makeTests {
       [options]
       test-option = 1
     '';
-    expected = "test-package";
-  in assert parsed.metadata.name == expected;
+  in assert parsed.metadata.name == "test-package";
+  assert parsed.options.test-option == "1";
+  true;
+
+  emptyLinesInSection = let
+    parsed = setuptools.parseSetupCfg ''
+      [metadata]
+
+      name = test-package
+
+      version = 1
+    '';
+  in assert parsed.metadata.name == "test-package";
+  assert parsed.metadata.version == "1";
+  true;
+
+  whitespaceLinesBetweenSections = let
+    # we use an @ that we replace with an empty space to deal with
+    # editors that nuke whitespaces at the end of lines when saving a
+    # file.
+    text = replaceStrings [ "@" ] [ " " ] ''
+      [metadata]
+      name = test-package
+        @
+
+      [options]
+      test-option = 1
+    '';
+    parsed = setuptools.parseSetupCfg text;
+  in assert parsed.metadata.name == "test-package";
   assert parsed.options.test-option == "1";
   true;
 }
