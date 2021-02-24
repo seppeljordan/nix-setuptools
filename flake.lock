@@ -17,15 +17,15 @@
     },
     "nix-parsec": {
       "locked": {
-        "lastModified": 1614005190,
-        "narHash": "sha256-QH7ikvLIK2E/+ql4cEl6/kUObaJhNXEXMzqokqT9wFg=",
-        "owner": "seppeljordan",
+        "lastModified": 1614150306,
+        "narHash": "sha256-h5fZgIhwvekg5WTNDdrV5EJ4zxXvlSqITmPVuz/OM+w=",
+        "owner": "nprindle",
         "repo": "nix-parsec",
-        "rev": "962eff37f778cd96644433e3d13ab9da680f4f90",
+        "rev": "a28e73fce98227cc46edfdbb8518697c0982e034",
         "type": "github"
       },
       "original": {
-        "owner": "seppeljordan",
+        "owner": "nprindle",
         "repo": "nix-parsec",
         "type": "github"
       }

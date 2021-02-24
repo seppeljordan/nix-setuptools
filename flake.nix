@@ -3,7 +3,7 @@
     "A tool to parse setuptools configuration files (setup.cfg) with nix";
 
   inputs = {
-    nix-parsec.url = "github:seppeljordan/nix-parsec";
+    nix-parsec.url = "github:nprindle/nix-parsec";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
