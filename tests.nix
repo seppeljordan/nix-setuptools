@@ -84,4 +84,25 @@ in makeTests {
   in assert parsed.metadata.name == "test-package";
   assert parsed.options.test-option == "1";
   true;
+
+  multilineOptions = let
+    parsed = setuptools.parseSetupCfg ''
+      [section]
+      multi-line-option =
+          line1
+          line2
+    '';
+  in assert parsed.section.multi-line-option == [ "line1" "line2" ]; true;
+
+  multilineOptionsMixedWithSingleLineOptions = let
+    parsed = setuptools.parseSetupCfg ''
+      [section]
+      multi-line-option =
+          line1
+          line2
+      single-line-option = 1
+    '';
+  in assert parsed.section.multi-line-option == [ "line1" "line2" ];
+  assert parsed.section.single-line-option == "1";
+  true;
 }
