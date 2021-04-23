@@ -25,11 +25,9 @@
         });
 
     in {
-      lib = {
-        setuptools = import ./setuptools.nix {
-          inherit (nixpkgs) lib;
-          parsec = nix-parsec.lib.parsec;
-        };
-      };
+      lib = module.makeModuleTree {
+        inherit (nixpkgs) lib;
+        inherit (nix-parsec.lib) parsec;
+      } ./lib.nix;
     } // systemDependent;
 }

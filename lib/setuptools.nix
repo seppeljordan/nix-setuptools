@@ -1,4 +1,5 @@
 { parsec, lib }:
+self:
 
 with parsec;
 with lib;
