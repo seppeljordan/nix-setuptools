@@ -13,12 +13,13 @@
       systemDependent = flake-utils.lib.eachDefaultSystem (system:
         let
           pkgs = import nixpkgs { inherit system; };
-          defaultArguments = {
+          packaging = self.lib.packaging { python = pkgs.python3; };
+          tests = module.makeModuleTree {
             inherit (self.lib) setuptools;
-            inherit (pkgs) writeTextFile;
+            inherit (pkgs) writeTextFile python;
             inherit (nixpkgs) lib;
-          };
-          tests = module.makeModuleTree defaultArguments ./tests.nix;
+            inherit (packaging) buildSetuptoolsPackage;
+          } ./tests.nix;
         in {
           devShell = pkgs.mkShell { buildInputs = with pkgs; [ nixfmt ]; };
           checks = tests.allTests;

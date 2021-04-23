@@ -12,9 +12,8 @@
       moduleWithUtilities = self:
         (moduleFunction self) // (moduleUtilities self);
       moduleUtilities = self: {
-        makeModule = subModule:
-          makeModuleTree (autoArguments // self) subModule;
+        makeModule = subModule: explicitArguments:
+          makeModuleTree (autoArguments // self // explicitArguments) subModule;
       };
     in lib.fix moduleWithUtilities;
-
 }
