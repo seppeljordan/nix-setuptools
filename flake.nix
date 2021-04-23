@@ -9,28 +9,20 @@
 
   outputs = { self, nix-parsec, flake-utils, nixpkgs }:
     let
+      module = import ./module.nix { inherit (nixpkgs) lib; };
       systemDependent = flake-utils.lib.eachDefaultSystem (system:
         let
           pkgs = import nixpkgs { inherit system; };
-          callFunction = callFunctionWith {
+          defaultArguments = {
             inherit (self.lib) setuptools;
             inherit (pkgs) writeTextFile;
             inherit (nixpkgs) lib;
-            inherit callFunctionWith;
           };
+          tests = module.makeModuleTree defaultArguments ./tests.nix { };
         in {
           devShell = pkgs.mkShell { buildInputs = with pkgs; [ nixfmt ]; };
-          checks = callFunction ./tests/test-parser.nix { };
+          checks = tests.parserTests;
         });
-      callFunctionWith = autoArguments: functionOrPath: arguments:
-        let
-          f = if nixpkgs.lib.isFunction functionOrPath then
-            functionOrPath
-          else
-            import functionOrPath;
-          functionArguments = nixpkgs.lib.functionArgs f;
-        in f (builtins.intersectAttrs functionArguments
-          (autoArguments // arguments));
 
     in {
       lib = {
