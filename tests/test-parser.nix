@@ -1,5 +1,5 @@
 { setuptools, writeTextFile, lib }:
-
+self:
 with builtins;
 with lib;
 

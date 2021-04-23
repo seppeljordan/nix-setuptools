@@ -6,11 +6,15 @@
       functionArguments = lib.functionArgs f;
     in f
     (builtins.intersectAttrs functionArguments (autoArguments // arguments));
-  makeModuleTree = autoArguments: module: arguments:
+  makeModuleTree = autoArguments: module:
     let
-      moduleUtilities = {
-        makeModule = callFunctionWith (autoArguments // moduleUtilities);
+      moduleFunction = callFunctionWith autoArguments module { };
+      moduleWithUtilities = self:
+        (moduleFunction self) // (moduleUtilities self);
+      moduleUtilities = self: {
+        makeModule = subModule:
+          makeModuleTree (autoArguments // self) subModule;
       };
-    in lib.fix
-    (callFunctionWith (autoArguments // moduleUtilities) module arguments);
+    in lib.fix moduleWithUtilities;
+
 }

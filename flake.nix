@@ -18,10 +18,10 @@
             inherit (pkgs) writeTextFile;
             inherit (nixpkgs) lib;
           };
-          tests = module.makeModuleTree defaultArguments ./tests.nix { };
+          tests = module.makeModuleTree defaultArguments ./tests.nix;
         in {
           devShell = pkgs.mkShell { buildInputs = with pkgs; [ nixfmt ]; };
-          checks = tests.parserTests;
+          checks = tests.allTests;
         });
 
     in {
